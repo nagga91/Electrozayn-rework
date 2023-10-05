@@ -58,7 +58,7 @@ LoginUser :(req,res)=>{
     } else {
         try {
             var session = utils.RandomString(32);
-            const registerInfo = await middleware.CreateSession(req, res, results[0].id, results, session);
+            const registerInfo = await middleware.CreateSession(req, res, results[0].id, session);
             // Only send one response
         } catch (err) {
             res.status(500).json({ success: false, error: err.message });

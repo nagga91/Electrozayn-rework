@@ -168,7 +168,7 @@ const MyOrders = () => {
                                         <p>Edit search or clear all filters</p>
                                     </div>
                                 )}
-                                {orders.filter((el)=>el.user_id===(Number(user_id))).map((order) => {
+                                {orders.filter((el)=>console.log(el,'tttttttt')).map((order) => {
                                     return (
                                  <>
                                     <OrderItem order={order} />
