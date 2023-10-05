@@ -8,12 +8,11 @@ const OrderItem = ({order}) => {
     const { orderId, name, image, price, quantity, createdAt, deliveredAt, orderStatus } = order;
 
     return (
-        <Link to={`/order_details/${order.id}`} className="flex p-4 items-start bg-white border rounded gap-2 sm:gap-0 hover:shadow-lg">
+        <Link to={`/orders`} className="flex p-4 items-start bg-white border rounded gap-2 sm:gap-0 hover:shadow-lg">
             {/* <!-- image container --> */}
             <div className="w-full sm:w-32 h-20">
                 <img draggable="false" className="h-full w-full object-contain" src={image} alt={name} />
             </div>
-            {console.log(order)}
             {/* <!-- image container --> */}
 
             {/* <!-- order desc container --> */}
@@ -30,28 +29,29 @@ const OrderItem = ({order}) => {
 
                     <div className="flex flex-col gap-1.5">
                         <p className="text-sm font-medium flex items-center gap-1">
-                            {orderStatus === "Shipped" ? (
+                            {order.validate_add_or_not === 0 ? (
                                 <>
                                     <span className="text-primary-orange pb-0.5">
                                         <CircleIcon sx={{ fontSize: "14px" }} />
                                     </span>
-                                    Shipped
+                                    En Attendant
                                 </>
-                            ) : orderStatus === "Delivered" ? (
+                            ) : order.validate_add_or_not === 1 ? (
                                 <>
                                     <span className="text-primary-green pb-0.5">
                                         <CircleIcon sx={{ fontSize: "14px" }} />
                                     </span>
-                                    Delivered on {formatDate(deliveredAt)}
+                                    onfirmer
                                 </>
                             ) : (
-                                <>
-                                    <span className="text-primary-green pb-0.5">
-                                        <RadioButtonUncheckedIcon sx={{ fontSize: "14px" }} />
-                                    </span>
-                                    Commandé(s) le {formatDate(order.date)}
-                                </>
-                            )}
+                                null
+                            )}<>
+                            <span className="text-primary-green pb-0.5">
+                                <RadioButtonUncheckedIcon sx={{ fontSize: "14px" }} />
+                            </span>
+                            Commandé(s) le {formatDate(order.date)}
+                        </>
+
                         </p>
                         
                     </div>
@@ -65,3 +65,4 @@ const OrderItem = ({order}) => {
 };
 
 export default OrderItem;
+

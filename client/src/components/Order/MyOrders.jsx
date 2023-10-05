@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { myOrders, clearErrors } from '../../actions/orderAction';
+import { myOrderss, clearErrors } from '../../actions/orderAction';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../Layouts/Loader';
 import { useSnackbar } from 'notistack';
@@ -11,6 +11,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import SearchIcon from '@mui/icons-material/Search';
 import MinCategory from '../Layouts/MinCategory';
 import MetaData from '../Layouts/MetaData';
+import axios from 'axios';
 
 const orderStatus = ["Processing", "Shipped", "Delivered"];
 const dt = new Date();
@@ -27,15 +28,18 @@ const MyOrders = () => {
     const [search, setSearch] = useState("");
     const [filteredOrders, setFilteredOrders] = useState([]);
 
-    const { orders, loading, error } = useSelector((state) => state.myOrders);
-
+     const { loading, error } = useSelector((state) => state.myOrders);
+const [orders,setOrders]=useState([])
     useEffect(() => {
         if (error) {
             enqueueSnackbar(error, { variant: "error" });
             dispatch(clearErrors());
         }
-        dispatch(myOrders());
-    }, [dispatch, error, enqueueSnackbar]);
+        // dispatch(myOrderss());
+        axios.get('https://www.electrozayn.com/api/order_items').then((res)=>{
+            setOrders(res.data)
+        })
+    }, [dispatch, error, enqueueSnackbar,orders]);
 
     useEffect(() => {
         if (loading === false) {
@@ -105,7 +109,6 @@ const MyOrders = () => {
     return (
         <>
             <MetaData title="Electrozayn - Le monde des composants électroniques et de l'électronique en Tunisie" />
-
             <MinCategory />
             <main className="w-full mt-16 sm:mt-0">
                 <div className="flex gap-3.5 mt-2 sm:mt-6 sm:mx-3 m-auto mb-7">
@@ -168,7 +171,7 @@ const MyOrders = () => {
                                         <p>Edit search or clear all filters</p>
                                     </div>
                                 )}
-                                {orders.filter((el)=>console.log(el,'tttttttt')).map((order) => {
+                                {orders.filter((el)=>el.user_id===Number(user_id)).map((order) => {
                                     return (
                                  <>
                                     <OrderItem order={order} />

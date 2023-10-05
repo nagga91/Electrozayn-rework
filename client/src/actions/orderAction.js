@@ -25,12 +25,12 @@ export const newOrder = (orderData, id) => async (dispatch) => {
 };
 
 // Get User Orders
-export const myOrders = (user_id) => async (dispatch) => {
+export const myOrderss = (user_id) => async (dispatch) => {
     try {
         dispatch({ type: MY_ORDERS_REQUEST });
 
         const { data } = await axios.get(`https://www.electrozayn.com/api/order_items`);
-
+        console.log(data)
         dispatch({
             type: MY_ORDERS_SUCCESS,
             payload: data,
